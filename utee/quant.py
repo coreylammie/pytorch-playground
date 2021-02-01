@@ -57,8 +57,8 @@ def min_max_quantize(input, bits):
     min_val, max_val = input.min(), input.max()
 
     if isinstance(min_val, Variable):
-        max_val = float(max_val.data.cpu().numpy()[0])
-        min_val = float(min_val.data.cpu().numpy()[0])
+        max_val = float(max_val.data.cpu().numpy())
+        min_val = float(min_val.data.cpu().numpy())
 
     input_rescale = (input - min_val) / (max_val - min_val)
 
