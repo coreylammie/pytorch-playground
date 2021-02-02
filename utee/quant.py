@@ -4,16 +4,24 @@ from torch import nn
 from collections import OrderedDict
 import math
 from IPython import embed
+import warnings
 
 def compute_integral_part(input, overflow_rate):
-    abs_value = input.abs().reshape(-1)
-    sorted_value = abs_value.sort(dim=0, descending=True)[0]
-    split_idx = int(overflow_rate * len(sorted_value))
-    v = sorted_value[split_idx]
-    if isinstance(v, Variable):
-        v = float(v.data.cpu())
-    sf = math.ceil(math.log2(v+1e-12))
-    return sf
+    while True:
+        if overflow_rate > 1.:
+            raise Exception('Invalid overflow_rate value.')
+        try:
+            abs_value = input.abs().reshape(-1)
+            sorted_value = abs_value.sort(dim=0, descending=True)[0]
+            split_idx = int(overflow_rate * len(sorted_value))
+            v = sorted_value[split_idx]
+            if isinstance(v, Variable):
+                v = float(v.data.cpu())
+            sf = math.ceil(math.log2(v+1e-12))
+            return sf
+        except:
+            warnings.warn('Invalid sf value encountered. Increasing overflow_rate.)
+            overflow_rate += 0.1
 
 def linear_quantize(input, sf, bits):
     assert bits >= 1, bits
