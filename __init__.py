@@ -1,1 +1,1 @@
-from pytorch_playground.utee import *
+from .utee import *
