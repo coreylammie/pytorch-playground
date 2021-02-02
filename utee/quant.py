@@ -6,7 +6,7 @@ import math
 from IPython import embed
 
 def compute_integral_part(input, overflow_rate):
-    abs_value = input.abs().view(-1)
+    abs_value = input.abs().reshape(-1)
     sorted_value = abs_value.sort(dim=0, descending=True)[0]
     split_idx = int(overflow_rate * len(sorted_value))
     v = sorted_value[split_idx]
