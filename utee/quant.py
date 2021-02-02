@@ -20,7 +20,7 @@ def compute_integral_part(input, overflow_rate):
             sf = math.ceil(math.log2(v+1e-12))
             return sf
         except:
-            warnings.warn('Invalid sf value encountered. Increasing overflow_rate.)
+            warnings.warn('Invalid sf value encountered. Increasing overflow_rate.')
             overflow_rate += 0.1
 
 def linear_quantize(input, sf, bits):
